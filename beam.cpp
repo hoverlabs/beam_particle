@@ -1,6 +1,5 @@
 /*
 ===========================================================================    
-
   This is the library for Beam. 
   
   Beam is a beautiful LED matrix — features 120 LEDs that displays scrolling text, animations, or custom lighting effects. 
@@ -849,13 +848,82 @@ void Beam::draw(){
 }
 
 
-void Beam::display(int frameNum){
+void Beam::display(){
     
-      uint8_t pictureData = 0 << 7 | 1 << 6 | frameNum;
-      uint8_t displaydata = 0 << 7 | 0 << 6 | 0 << 5 | 0 << 4 | 0x0B;
+    uint8_t pictureData = 0 << 7 | 1 << 6 | _beamCount;
+    uint8_t displayData = 0 << 7 | 0 << 6 | 0 << 5 | 0 << 4 | 0x0B;
+    uint8_t currsrcData = 0;
+    
+    // change led current based on number of connected beams
+    if (_beamCount == 4){    
+        currsrcData = 0x08;
+        sendWriteCmd(BEAMA, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMA, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMA, CTRL, DISPLAYO, displayData);
+        
+        sendWriteCmd(BEAMB, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMB, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMB, CTRL, DISPLAYO, displayData);    
+        
+        sendWriteCmd(BEAMC, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMC, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMC, CTRL, DISPLAYO, displayData);    
+        
+        sendWriteCmd(BEAMD, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMD, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMD, CTRL, DISPLAYO, displayData);   
+        
+        sendWriteCmd(BEAMA, CTRL, SHDN, 0x03);
+        sendWriteCmd(BEAMB, CTRL, SHDN, 0x03);
+        sendWriteCmd(BEAMC, CTRL, SHDN, 0x03);
+        sendWriteCmd(BEAMD, CTRL, SHDN, 0x03);
+    
+    } else if (_beamCount == 3){
+        currsrcData = 0x10;
 
-      sendWriteCmd(_currBeam, CTRL, PIC, pictureData);
-      sendWriteCmd(_currBeam, CTRL, DISPLAYO, displaydata);
+        sendWriteCmd(BEAMA, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMA, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMA, CTRL, DISPLAYO, displayData);
+        
+        sendWriteCmd(BEAMB, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMB, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMB, CTRL, DISPLAYO, displayData);    
+        
+        sendWriteCmd(BEAMC, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMC, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMC, CTRL, DISPLAYO, displayData);    
+        
+        sendWriteCmd(BEAMA, CTRL, SHDN, 0x03);
+        sendWriteCmd(BEAMB, CTRL, SHDN, 0x03);
+        sendWriteCmd(BEAMC, CTRL, SHDN, 0x03);
+        
+    } else if (_beamCount == 2){
+        currsrcData = 0x15;
+        
+        sendWriteCmd(BEAMA, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMA, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMA, CTRL, DISPLAYO, displayData);
+        
+        sendWriteCmd(BEAMB, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMB, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMB, CTRL, DISPLAYO, displayData);    
+        
+        sendWriteCmd(BEAMA, CTRL, SHDN, 0x03);
+        sendWriteCmd(BEAMB, CTRL, SHDN, 0x03);
+
+    } else if (_beamCount == 1){
+        currsrcData = 0x20;
+        
+        sendWriteCmd(BEAMA, CTRL, PIC, pictureData);
+        sendWriteCmd(BEAMA, CTRL, CURSRC, currsrcData);
+        sendWriteCmd(BEAMA, CTRL, DISPLAYO, displayData);
+        
+        sendWriteCmd(BEAMA, CTRL, SHDN, 0x03);
+  
+    } 
+    
+
+
 
 }
 

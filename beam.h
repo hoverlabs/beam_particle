@@ -1,6 +1,5 @@
 /*
 ===========================================================================    
-
   This is the library for Beam. 
   
   Beam is a beautiful LED matrix — features 120 LEDs that displays scrolling text, animations, or custom lighting effects. 
@@ -63,7 +62,7 @@ class Beam {
     void printFrame(uint8_t frameToPrint, const char * text);
     void play();
     void draw();
-    void display(int frameNum);
+    void display();
     void setScroll(uint8_t direction, uint8_t fade);
     void setSpeed(uint8_t speed);
     void setLoops (uint8_t loops);
